@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="ja">
+    <meta charset="UTF-8">
+    <title>spring-boot</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script>
+function SaveCtrl($scope, $http, $templateCache) {
+  $scope.url = 'api/todos';
+  $scope.title = 'test';
+
+  $scope.save = function() {
+    $scope.code = null;
+    $scope.response = null;
+    $http.post($scope.url, {todoTitle:$scope.title})
+      .success(function(data, status) {
+        $scope.status = status;
+        $scope.data = data;
+      })
+      .error(function(data, status) {
+        $scope.data = data || "Request failed";
+        $scope.status = status;
+    });
+  };
+}
+function FindCtrl($scope, $http, $templateCache) {
+  $scope.todos = null;
+  $http.get($scope.url)
+    .success(function(data, status) {
+        $scope.todos = data;
+      });
+}
+    </script>
+</head>
+<body>
+<section class="container" ng-controller="SaveCtrl">
+    <h1>todos</h1>
+
+    <ul ng-controller="FindCtrl">
+        <li ng-repeat="todo in todos">{{todo.todoId}} {{todo.todoTitle}}</li>
+    </ul>
+
+    <input type="text" ng-model="title"/>
+    <button ng-click="save()">post</button>
+
+    <pre>http status code: {{status}}</pre>
+    <pre>http response data: {{data}}</pre>
+</section>
+</body>
+</html>

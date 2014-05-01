@@ -3,13 +3,15 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.1.RELEASE'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.2.RELEASE'
     }
 }
 
 allprojects {
     apply plugin : 'java'
-    apply plugin: 'spring-boot'
+    apply plugin : 'eclipse'
+    apply plugin : 'idea'
+    apply plugin : 'spring-boot'
 
     repositories {
         mavenCentral()
@@ -26,39 +28,11 @@ allprojects {
         compile.extendsFrom provided
         all*.exclude group: "commons-logging", module: "commons-logging"
     }
-
-    ext {
-        springVersion = '4.0.3.RELEASE'
-        slf4jVersion = '1.7.7'
-        logbackVersion = '1.1.2'
-
-        springDataJpaVersion = '1.5.1.RELEASE'
-        springDataRestVersion = '2.0.1.RELEASE'
-        hibernateVersion = '4.3.5.Final'
-
-        junitVersion = '4.11'
-        mockitoVersion = '1.9.5'
-        h2Version = '1.3.173'
-
-        servletApiVersion = '3.0.1'
-        cglibVersion = '3.1'
-        asmVersion = '3.3.1'
-        aspectjVersion = '1.7.3'
-    }
-
-    dependencies {
-    }
-}
-
-configure(rootProject) {
-    task wrapper(type: Wrapper) {
-        description = "Generates gradlew[.bat] scripts"
-        gradleVersion = "1.11"
-    }
 }
 
 configure(subprojects) { subproject ->
     group = 'jp.co.itrade.sample'
+    version = 0.1
     defaultTasks 'clean', 'packages'
     jar {
         doFirst {
@@ -71,7 +45,6 @@ configure(subprojects) { subproject ->
 
 project("sample-domain") {
     description = 'domain'
-    defaultTasks 'clean', 'packages'
     dependencies {
         compile "org.springframework.boot:spring-boot-starter-data-jpa"
         compile "javax.inject:javax.inject:1"
@@ -81,12 +54,18 @@ project("sample-domain") {
 }
 project("sample-web") {
     description = 'web'
-    defaultTasks 'clean', 'packages'
     dependencies {
         compile project(':sample-domain')
         compile("org.springframework.boot:spring-boot-starter-web") {
             exclude module: "spring-boot-starter-tomcat"
         }
-        compile "org.eclipse.jetty:jetty-webapp:9.1.4.v20140401"
+        compile "org.eclipse.jetty:jetty-webapp:9.1.+"
+        compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.3.+"
+    }
+}
+project("sample-boot") {
+    description = 'boot'
+    dependencies {
+        compile project(':sample-domain'), project(':sample-web')
     }
 }

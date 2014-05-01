@@ -1,0 +1,2 @@
+insert into todo (todo_id, todo_title, finished, date, created_by, created_date, last_modified_by, last_modified_date, version) values (1, 'test1', 0, null, 'sys', systimestamp, 'sys', systimestamp, 0);
+insert into todo (todo_id, todo_title, finished, date, created_by, created_date, last_modified_by, last_modified_date, version) values (2, 'test2', 0, null, 'sys', systimestamp, 'sys', systimestamp, 0);

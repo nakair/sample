@@ -6,6 +6,7 @@ import jp.co.itrade.sample.domain.repository.TodoRepository;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,6 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo create(Todo todo) {
-        todo.setCreatedAt(new Date());
         return todoRepository.save(todo);
     }
 

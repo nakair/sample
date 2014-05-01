@@ -3,14 +3,17 @@ package jp.co.itrade.sample.domain.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -22,8 +25,15 @@ public class Todo {
     private Long todoId;
     private String todoTitle;
     private boolean finished = false;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private LocalDate date;
+    @CreatedBy
+    private String createdBy;
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @LastModifiedBy
+    private String lastModifiedBy;
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
     @Version
     private Long version;
 }
